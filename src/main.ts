@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import './style.css'
+import {createApp} from 'vue'
+import './style/index.css'
 import App from './App.vue'
+import createUI from './components/index'
 
-createApp(App).mount('#app')
+createApp(App).use(createUI).mount('#app')
