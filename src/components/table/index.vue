@@ -36,7 +36,45 @@ const props = defineProps({
     default: 'cn'
   }
 })
+// ----------------------
+const addFiveMinutes = instance => {
+  console.log('instance',instance)
+  return instance().add(5, 'minutes').format("HH:mm")
+}
+console.log(addFiveMinutes(moment))
 
+const addThirtyMinutes = instance => {
+  return instance().add(30, 'minutes').format("HH:mm")
+}
+
+const addTwelveHours = instance => {
+  return instance().add(12, 'hours').format("HH:mm")
+}
+const addOneDay = instance => {
+  return instance().add(1, 'days').format("MM:DD")
+}
+const addTwoDays = instance => {
+  return instance().add(2, 'days').format("MM:DD")
+}
+
+const addFourDays = instance => {
+  return instance().add(4, 'days').format("MM:DD")
+}
+
+const addSevenDays = instance => {
+  return instance().add(7, 'days').format("MM:DD")
+}
+
+const addFifteenDays = instance => {
+  return instance().add(15, 'days').format("MM:DD")
+}
+
+const addOneMonth = instance => {
+  return instance().add(1, 'months').format("MM:DD")
+}
+
+
+// ----------------------
 </script>
 <template>
   <div class="ebhs-table-container">
@@ -80,10 +118,10 @@ const props = defineProps({
           </div>
           <div class="ebhs-table__right flex w-45p">
             <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
+              {{ item.start.add(1, 'd') }}
             </span>
             <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
+              {{ item.start.add(2, 'd') }}
             </span>
             <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
               {{ item.start.startOf('hour').fromNow() }}
