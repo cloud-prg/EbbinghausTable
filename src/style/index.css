@@ -148,13 +148,20 @@ t-32 {
 .w-15p {
     width: 15%;
 }
+.w-25p {
+    width: 25%;
+}
+
+.w-40p {
+    width: 40%;
+}
 
 .w-45p {
     width: 45%;
 }
 
-.w-40p {
-    width: 40%;
+.w-60p {
+    width: 60%;
 }
 
 .pb-25 {

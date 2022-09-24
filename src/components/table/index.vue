@@ -9,12 +9,13 @@ import {reactive, ref} from 'vue'
 import * as moment from 'moment'
 import "moment/dist/locale/zh-cn";
 
-const {circleList, dataSource} =
+const {circleList, circleMap, dataSource} =
     reactive({
+      // 记忆周期列表
       circleList: [
         '5分钟',
         '30分钟',
-        '12小时',
+        '2小时',
         '1天',
         '2天',
         '4天',
@@ -22,6 +23,26 @@ const {circleList, dataSource} =
         '15天',
         '1个月'
       ],
+      // 时间段映射表
+      circleMap: {
+        '分钟': {
+          unit: 'minutes',
+          format: '[今天]hh:mm'
+        },
+        '小时': {
+          unit: 'hours',
+          format: '[今天]hh:mm'
+        },
+        '月': {
+          unit: 'months',
+          format: 'MM[月]DD[日]'
+        },
+        '天': {
+          unit: 'days',
+          format: 'MM[月]DD[日]'
+        },
+      },
+      // 数据源
       dataSource: [
         {
           start: moment(),
@@ -30,51 +51,23 @@ const {circleList, dataSource} =
       ]
     })
 
-const props = defineProps({
-  lang: {
-    type: String,
-    default: 'cn'
-  }
-})
-// ----------------------
-const addFiveMinutes = instance => {
-  console.log('instance',instance)
-  return instance().add(5, 'minutes').format("HH:mm")
-}
-console.log(addFiveMinutes(moment))
+// 获取指定时间
+function getAppointTime(timeOption, targetDate = (moment().format('YYYY MM DD HH mm'))) {
+  let res = "";
+  console.log(targetDate.split(' '))
+  Object.keys(circleMap).forEach(key => {
+    if (timeOption.search(key) !== -1) {
+      res = moment(targetDate.split(' '))
+          .add(timeOption.slice(0, timeOption.search(key)), circleMap[key]['unit'])
+          .format(circleMap[key]['format'])
+      console.log('res', res)
+    }
 
-const addThirtyMinutes = instance => {
-  return instance().add(30, 'minutes').format("HH:mm")
-}
+  })
 
-const addTwelveHours = instance => {
-  return instance().add(12, 'hours').format("HH:mm")
-}
-const addOneDay = instance => {
-  return instance().add(1, 'days').format("MM:DD")
-}
-const addTwoDays = instance => {
-  return instance().add(2, 'days').format("MM:DD")
+  return res;
 }
 
-const addFourDays = instance => {
-  return instance().add(4, 'days').format("MM:DD")
-}
-
-const addSevenDays = instance => {
-  return instance().add(7, 'days').format("MM:DD")
-}
-
-const addFifteenDays = instance => {
-  return instance().add(15, 'days').format("MM:DD")
-}
-
-const addOneMonth = instance => {
-  return instance().add(1, 'months').format("MM:DD")
-}
-
-
-// ----------------------
 </script>
 <template>
   <div class="ebhs-table-container">
@@ -84,12 +77,12 @@ const addOneMonth = instance => {
           <span class="flex-center t-20 flex-1">序号</span>
           <span class="flex-center t-20 flex-2">学习日期</span>
         </div>
-        <div class="ebhs-table__middle flex  w-40p">
+        <div class="ebhs-table__middle flex  w-25p">
           <span class="flex-center t-20 flex-1 bordered-blue border-width-2">
             学习内容
           </span>
         </div>
-        <div class="ebhs-table__right flex-column h-80 w-45p">
+        <div class="ebhs-table__right flex-column h-80 w-60p">
           <div class="upper flex h-40p">
             <span class="flex-1 flex-center bordered-blue border-width-2">短期记忆复习周期</span>
             <span class="flex-2 flex-center bordered-blue border-width-2">长期记忆复习周期</span>
@@ -102,48 +95,24 @@ const addOneMonth = instance => {
           </div>
         </div>
       </div>
-
       <div class="ebhs-table__body">
         <div v-for="(item , index) in dataSource" :key='index' class='ebhs-table__row flex'>
           <div class="ebhs-table__left flex w-15p">
             <span class="flex-center t-20 flex-1 bordered-blue border-width-2">{{ index + 1 }}</span>
             <span class="flex-center t-20 flex-2 bordered-blue border-width-2">{{
-                item.start.format("MMM Do HH mm")
+                item.start.format('MM[月]DD[日] h:mm')
               }}</span>
           </div>
-          <div class="ebhs-table__middle flex w-40p">
+          <div class="ebhs-table__middle flex w-25p">
             <span class="flex-center t-20 bordered-blue flex-1 border-width-2">
             {{ item.content }}
           </span>
           </div>
-          <div class="ebhs-table__right flex w-45p">
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.add(1, 'd') }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.add(2, 'd') }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
-            <span class="flex-column flex-1 flex-center bordered-blue border-width-2">
-              {{ item.start.startOf('hour').fromNow() }}
-            </span>
+          <div class="ebhs-table__right flex w-60p">
+            <span v-for="(timeOption,childIndex) in circleList" :key="childIndex"
+                  class="flex-column flex-1 flex-center bordered-blue border-width-2">{{
+                getAppointTime(timeOption, item.start.format('YYYY MM DD HH mm'))
+              }}</span>
           </div>
         </div>
       </div>
