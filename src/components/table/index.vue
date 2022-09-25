@@ -177,9 +177,6 @@ const handleConsole = () => {
           <n-button @click="add" type="success">
             添加
           </n-button>
-          <n-button @click="()=>{}" type="error">
-            删除
-          </n-button>
           <n-button @click="()=>{}" type="info">
             导入表格
           </n-button>
