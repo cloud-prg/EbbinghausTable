@@ -16,17 +16,17 @@ const props = defineProps({
 
 </script>
 <template>
-  <header class="ebhs-header flex-sb-x pb-10">
-    <div class="ebhs-img-container flex-1">
+  <header class="ebhs-header flex justify-between pb-2">
+    <div class="ebhs-img-container flex-grow-1">
       <img
           src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic4.zhimg.com%2Fv2-66b9a10d26a53f63f6a141557240f87b_b.jpg&refer=http%3A%2F%2Fpic4.zhimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1666278668&t=161b8a0ee696dfd22566d5228f3cb4fa"
           class="ebhs-img"/>
     </div>
-    <div class="ebhs-description flex-2 flex-column">
+    <div class="ebhs-description flex flex-grow-2 flex-col">
         <span>
           <span class="is-bold">定义:</span> 信息输入大脑后，遗忘也就随之开始了。遗忘率随时间的流逝而先快后慢，特别是在刚刚识记的短时间里，遗忘最快，这就是著名的艾宾浩斯遗忘曲线。
         </span>
-      <span>
+      <span class="mt-10">
           <span class="is-bold">记忆种类及记忆周期:</span> 人的记忆周期分为短期记忆和长期记忆两种。
           第一个记忆周期是 5分钟
           第二个记忆周期是30分钟
@@ -72,9 +72,6 @@ const props = defineProps({
   letter-spacing: 2px;
   line-height: 1.4;
 
-  span + span{
-    margin-top: 80px;
-  }
 }
 
 
