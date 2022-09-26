@@ -16,8 +16,9 @@ export default {
 import {reactive, ref, nextTick} from 'vue'
 import * as moment from 'moment'
 import "moment/dist/locale/zh-cn";
-import {useMessage} from 'naive-ui'
-import app from "../../App.vue";
+import { useMessage } from 'naive-ui';
+import ExportJsonExcel  from 'js-export-excel';
+
 
 const message = useMessage()
 moment.suppressDeprecationWarnings = true // moment不提示警告
@@ -93,7 +94,7 @@ const getAppointTime = (timeOption, targetDate) => {
 // 时间选择器 确认钩子
 const handleConfirm = (value, index) => {
   let res = moment(value)
-  dataSource[index].startTime = res
+  dataSource[index].startTime = res.format('YYYY-MM-DD HH:mm')
   circleList.forEach(item => {
     dataSource[index][item] = getAppointTime(item, res.format('YYYY MM DD HH mm'))
   })
@@ -113,6 +114,25 @@ const handleConsole = () => {
   console.log('dataSource',dataSource)
 }
 
+const handleExport = () => {
+  // 直接导出文件
+ let option = {};
+  
+ option.fileName = `${moment().format('YYYY-MM-DD')} 记忆安排表`;
+  
+ option.datas = [
+   {
+     sheetData: dataSource,
+     sheetName: "sheet",
+     sheetFilter: ["startTime", "content",'5分钟','30分钟','2小时','1天','2天','4天','7天','15天','1个月'],
+     sheetHeader: ["起始时间", "学习内容", '5分钟','30分钟','2小时','1天','2天','4天','7天','15天','1个月'],
+     columnWidths: [8, 10,5,5,5,5,5,5,5,5,5],
+   },
+ ];
+  
+ var toExcel = new ExportJsonExcel(option); //new
+ toExcel.saveExcel(); //保存
+}
 
 </script>
 <template>
@@ -180,7 +200,7 @@ const handleConsole = () => {
           <n-button @click="()=>{}" type="info">
             导入表格
           </n-button>
-          <n-button @click="()=>{}" type="warning">
+          <n-button @click="handleExport" type="warning">
             导出表格
           </n-button>
           <n-button @click="handleConsole" type="warning">
