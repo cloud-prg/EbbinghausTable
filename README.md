@@ -10,5 +10,4 @@
 - `navie-ui`
 
 # 项目地址
-
 [艾宾浩斯遗忘曲线-记忆时间表在线生成](https://yunshangzhou.github.io/EbbinghausTable)
